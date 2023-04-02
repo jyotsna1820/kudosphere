@@ -1,7 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&family=Raleway:wght@400;500;600;700&display=swap');
+
 #root {
   width: 100%;
-  margin: 5rem auto;
-  padding: 2rem;
+  margin: 5rem auto 0;
   text-align: center;
   height: 100vh;
 }
@@ -46,6 +47,9 @@
   display: block;
   height: 100%;
   width: 100%;
+  background-image: url("./assets/bg2.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 @keyframes animatedBackground1 {
@@ -89,4 +93,8 @@
   padding: none;
   position: absolute;
   bottom: 0;
+}
+
+.Typography{
+  font-family: Mulish, sans-serif;
 }

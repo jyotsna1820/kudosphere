@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&family=Raleway:wght@400;500;600;700&display=swap');
 
 :root {
-  font-family: Nunito, system-ui, Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Mulish, system-ui, Inter, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -73,6 +73,10 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.Typography{
+  font-family: Mulish, sans-serif;
 }
 
 /* CSS HEX */

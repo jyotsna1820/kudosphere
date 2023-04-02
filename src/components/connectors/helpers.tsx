@@ -1,6 +1,7 @@
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { InjectedConnector } from "@web3-react/injected-connector";
+import * as keys from "../../../.vscode/keys.json";
 
 const process = {env:
 {
@@ -8,14 +9,14 @@ const process = {env:
 }}
 
 export const CoinbaseWallet = new WalletLinkConnector({
- url: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
+ url: `https://mainnet.infura.io/v3/${keys.INFURA_KEY}`,
  appName: "Web3-react Demo",
  supportedChainIds: [1, 3, 4, 5, 42],
 });
 
 export const WalletConnect = new WalletConnectConnector({
   //@ts-ignore
- rpcUrl: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
+ rpcUrl: `https://mainnet.infura.io/v3/${keys.INFURA_KEY}`,
  bridge: "https://bridge.walletconnect.org",
  qrcode: true,
 });
