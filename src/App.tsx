@@ -6,19 +6,15 @@ import ImageUpload from "./components/imageUpload";
 import { AppBar, Box, Button, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import Wallet from "./components/connectors";
-import { BLACK, BLUE, CHARCOAL, NEON, WHITE } from "./constants/colors";
+import { BLACK, BLUE, GREEN, WHITE } from "./constants/colors";
 import { Web3Modal } from "@web3modal/react";
 import { EthereumClient } from "@web3modal/ethereum";
 import { Web3Button } from "@web3modal/react";
 import kudosphereLogoSQ from "./assets/kudosphere_sq.svg";
 import kudosphereLogo from "./assets/kudosphere.svg";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import gift1 from "./assets/gift1.svg";
-import gift2 from "./assets/gift2.svg";
-import gift3 from "./assets/gift3.svg";
-import gift4 from "./assets/gift4.png";
-import gift5 from "./assets/gift5.png";
-import bgImg from "./assets/bg.svg";
+import gift12 from "./assets/gift12.svg";
+import gift13 from "./assets/gift13.svg";
 
 function App({
   ethereumClient,
@@ -27,11 +23,11 @@ function App({
   ethereumClient: EthereumClient;
   projectId: string;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div className="App">
-      <AppBar sx={{boxShadow: "none", color: BLUE, backgroundColor: "transparent" }}>
+      <AppBar
+        className="Appbar"
+        sx={{ boxShadow: "none", color: BLUE, backgroundColor: WHITE }}>
         <Stack
           flexDirection={"row"}
           justifyContent={"space-between"}
@@ -42,7 +38,7 @@ function App({
             sx={{
               fontFamily: "Raleway, sans-serif",
               fontWeight: 600,
-              color: CHARCOAL,
+              color: BLACK,
             }}>
             kudosphere
           </Typography>
@@ -51,23 +47,29 @@ function App({
       </AppBar>
       <Box>
         <Grid container spacing={1}>
-          <Grid xs={3} md={3}>
+          <Grid xs={12} md={3}>
             <Stack
-              className="StackLeft"
               sx={{
-                backgroundImage: `url(${gift4})`,
-                backgroundPositionY: "bottom",
-              }}
-            />
+                backgroundColor: WHITE,
+                height: "100%",
+                justifyContent: "flex-start",
+              }}>
+              <object
+                type="image/svg+xml"
+                data={gift13}
+                style={{ backgroundColor: WHITE }}
+              />
+            </Stack>
           </Grid>
           <Grid xs={12} md={6}>
             <Typography
               className="Typography"
               variant="h3"
               sx={{
-                color: CHARCOAL,
+                color: BLACK,
                 fontWeight: 700,
                 marginBottom: "0.5rem",
+                marginTop: "2rem",
                 fontFamily: "Mulish, sans-serif",
               }}>
               Celebrate Achievements
@@ -76,12 +78,12 @@ function App({
               className="Typography"
               variant="h5"
               sx={{
-                color: CHARCOAL,
+                color: BLACK,
                 fontWeight: 500,
                 marginBottom: "2rem",
                 fontFamily: "Mulish, sans-serif",
               }}>
-              one NFT at a time
+              one NFT at a time.
             </Typography>
             <ImageUpload />
             <Web3Modal
@@ -90,20 +92,25 @@ function App({
               themeVariables={{
                 "--w3m-z-index": "1111",
                 "--w3m-accent-color": BLUE,
-                "--w3m-background-color": NEON,
+                "--w3m-background-color": GREEN,
                 "--w3m-accent-fill-color": BLACK,
-                '--w3m-font-family': 'Mulish, sans-serif',
+                "--w3m-font-family": "Mulish, sans-serif",
               }}
             />
           </Grid>
-          <Grid xs={3} md={3} sx={{ position: "relative" }}>
+          <Grid xs={12} md={3}>
             <Stack
-              className="StackRight"
               sx={{
-                backgroundImage: `url(${gift5})`,
-                backgroundPositionY: "top",
-              }}
-            />
+                backgroundColor: WHITE,
+                height: "100%",
+                justifyContent: "flex-end",
+              }}>
+              <object
+                type="image/svg+xml"
+                data={gift12}
+                style={{ backgroundColor: WHITE }}
+              />
+            </Stack>
           </Grid>
         </Grid>
       </Box>

@@ -14,7 +14,7 @@ import { CoinbaseWallet, Injected, WalletConnect } from "./helpers";
 import coinbaseLogo from "../../assets/coinbase.svg";
 import walletConnectLogo from "../../assets/walletConnect.svg";
 import metamaskLogo from "../../assets/metamask.svg";
-import {NEON, CHARCOAL} from "../../constants/colors";
+import {GREEN, BLACK} from "../../constants/colors";
 
 //function component to activate/deactivate the wallet
 //return a MUI dialog with the wallet options
@@ -32,14 +32,14 @@ const Wallet = ({isOpen, onClose}:WalletProps) => {
       <Dialog
         open={isOpen}
         onClose={onClose}
-        PaperProps={{ sx: { width: "30%", padding: "1rem 2rem 2rem 2rem", backgroundColor: CHARCOAL, color: NEON } }}>
+        PaperProps={{ sx: { width: "30%", padding: "1rem 2rem 2rem 2rem", backgroundColor: BLACK, color: GREEN } }}>
         <DialogTitle sx={{ textAlign: "center" }}>Connect Wallet</DialogTitle>
         <Stack spacing={3}>
           <Button
             variant="outlined"
             autoFocus
             onClick={() => activate(CoinbaseWallet)}
-            sx={{borderColor:NEON, color: NEON}}>
+            sx={{borderColor:GREEN, color: GREEN}}>
             <div
               style={{
                 width: "50px",
@@ -61,7 +61,7 @@ const Wallet = ({isOpen, onClose}:WalletProps) => {
             variant="outlined"
             autoFocus
             onClick={() => activate(WalletConnect)}
-            sx={{borderColor:NEON, color: NEON}}>
+            sx={{borderColor:GREEN, color: GREEN}}>
             <div
               style={{
                 width: "50px",
@@ -83,7 +83,7 @@ const Wallet = ({isOpen, onClose}:WalletProps) => {
             variant="outlined"
             autoFocus
             onClick={() => activate(Injected)}
-            sx={{borderColor:NEON, color: NEON}}>
+            sx={{borderColor:GREEN, color: GREEN}}>
             <div
               style={{
                 width: "50px",
@@ -101,7 +101,7 @@ const Wallet = ({isOpen, onClose}:WalletProps) => {
             Metamask
           </Button>
 
-          <Button variant="outlined" autoFocus onClick={() => deactivate()} sx={{borderColor:NEON, color: NEON}}>
+          <Button variant="outlined" autoFocus onClick={() => deactivate()} sx={{borderColor:GREEN, color: GREEN}}>
             Disconnect
           </Button>
         </Stack>

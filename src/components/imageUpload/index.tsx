@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import axiosRetry from "axios-retry";
-import * as styles from "style.css";
 import { Stack } from "@mui/system";
 import { Button, Typography } from "@mui/material";
 import { MdUpload } from "react-icons/md";
-import { BLACK, BLUE, CHARCOAL, NEON } from "../../constants/colors";
+import { BLACK, GREEN } from "../../constants/colors";
+import {useQuery} from "react-query";
 
 //function component to return the image upload component
 const JWT = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJlYmRiZjk1Yy0xODU4LTQ2NmEtOTZlNi1lZGZlM2UzYzM4MWEiLCJlbWFpbCI6Imp5b3RzbmExODIwQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJhZjFiMjc0N2NhMzc3M2MxODg3YyIsInNjb3BlZEtleVNlY3JldCI6ImY5ZmQ1N2M3ZjdjZDdiODA2NDFkMmRmNGNlM2VhMGIxZmU3MjE4Mjg1NmZmZWI4YTkwYTU4ODRlNzhjMjFmMGQiLCJpYXQiOjE2ODAyOTc4ODN9.59FKZD7xnbT7nNamhiHIfRmBuR7u6BfAnaWaQfymrc4`;
@@ -13,6 +12,10 @@ const JWT = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24
 const ImageUpload = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [preview, setPreview] = useState<string | undefined>();
+  // const issuesQuery = useQuery(
+  //   ["issues"],
+  //   () => fetch("api/issues").then(res => res.json())
+  // )
 
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
@@ -42,29 +45,33 @@ const ImageUpload = () => {
     setSelectedFile(undefined);
   };
 
-  const onSubmit = async() => {
+  const onSubmit = async () => {
     if (!selectedFile) return;
     const formData = new FormData();
     formData.append("file", selectedFile);
 
     const metadata = JSON.stringify({
-      name: 'File',
+      name: "File",
     });
-    formData.append('pinataMetadata', metadata);
-    
+    formData.append("pinataMetadata", metadata);
+
     const options = JSON.stringify({
       cidVersion: 0,
-    })
-    formData.append('pinataOptions', options);
+    });
+    formData.append("pinataOptions", options);
 
-    try{
-      const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
-        maxBodyLength: Infinity,
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          Authorization: JWT
+    try {
+      const res = await axios.post(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        formData,
+        {
+          maxBodyLength: Infinity,
+          headers: {
+            "Content-Type": `multipart/form-data`,
+            Authorization: JWT,
+          },
         }
-      });
+      );
       console.log(res.data);
       console.log(formData, "form data");
       const ImgHash = `ipfs://${res.data.IpfsHash}`;
@@ -105,14 +112,14 @@ const ImageUpload = () => {
             sx={{
               marginRight: "1rem",
               color: BLACK,
-              bgcolor: BLUE,
-              borderColor: BLUE,
+              bgcolor: GREEN,
+              borderColor: GREEN,
               boxShadow: "none",
             }}>
             <Typography
               variant="body1"
               sx={{
-                color: CHARCOAL,
+                color: BLACK,
                 fontFamily: "Mulish, sans-serif",
                 fontWeight: 600,
                 textTransform: "none",
@@ -145,11 +152,35 @@ const ImageUpload = () => {
 
       {selectedFile && (
         <Stack direction={"row"} spacing={2} justifyContent="center">
-          <Button variant="contained" color="primary" onClick={onSubmit}>
-            Upload
+          <Button
+            variant="contained"
+            onClick={onSubmit}
+            sx={{ color: BLACK, bgcolor: GREEN, boxShadow: "none" }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: BLACK,
+                fontFamily: "Mulish, sans-serif",
+                fontWeight: 600,
+                textTransform: "none",
+              }}>
+              Upload
+            </Typography>
           </Button>
-          <Button variant="outlined" color="primary" onClick={onCancel}>
-            Cancel
+          <Button
+            variant="outlined"
+            onClick={onCancel}
+            sx={{ color: GREEN, borderColor: GREEN }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: BLACK,
+                fontFamily: "Mulish, sans-serif",
+                fontWeight: 600,
+                textTransform: "none",
+              }}>
+              Cancel
+            </Typography>
           </Button>
         </Stack>
       )}
