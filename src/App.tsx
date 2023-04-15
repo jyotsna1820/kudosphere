@@ -15,6 +15,7 @@ import kudosphereLogo from "./assets/kudosphere.svg";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import gift12 from "./assets/gift12.svg";
 import gift13 from "./assets/gift13.svg";
+import Footer from "./components/footer";
 
 function App({
   ethereumClient,
@@ -113,7 +114,9 @@ function App({
             </Stack>
           </Grid>
         </Grid>
+        
       </Box>
+      <Footer/>
     </div>
   );
 }

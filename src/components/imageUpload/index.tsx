@@ -5,6 +5,7 @@ import { Button, Typography } from "@mui/material";
 import { MdUpload } from "react-icons/md";
 import { BLACK, GREEN } from "../../constants/colors";
 import {useQuery} from "react-query";
+import ImageMeta from "./imageMeta";
 
 //function component to return the image upload component
 const JWT = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJlYmRiZjk1Yy0xODU4LTQ2NmEtOTZlNi1lZGZlM2UzYzM4MWEiLCJlbWFpbCI6Imp5b3RzbmExODIwQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJhZjFiMjc0N2NhMzc3M2MxODg3YyIsInNjb3BlZEtleVNlY3JldCI6ImY5ZmQ1N2M3ZjdjZDdiODA2NDFkMmRmNGNlM2VhMGIxZmU3MjE4Mjg1NmZmZWI4YTkwYTU4ODRlNzhjMjFmMGQiLCJpYXQiOjE2ODAyOTc4ODN9.59FKZD7xnbT7nNamhiHIfRmBuR7u6BfAnaWaQfymrc4`;
@@ -12,12 +13,33 @@ const JWT = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24
 const ImageUpload = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [preview, setPreview] = useState<string | undefined>();
-  // const issuesQuery = useQuery(
-  //   ["issues"],
-  //   () => fetch("api/issues").then(res => res.json())
-  // )
 
-  // create a preview as a side effect, whenever selected file is changed
+  // use react query to upload image to pinata
+
+  const {isLoading, error, data} = useQuery("imageUpload", () => {
+    if (!selectedFile) return;
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    const metadata = JSON.stringify({
+      name: "File",
+      keyvalues: {
+        customKey: "customValue",
+        customKey2: "customValue2",
+      },
+    });
+    formData.append("pinataMetadata", metadata);
+    return axios
+      .post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
+        headers: {
+          "Content-Type": `multipart/form-data`,
+          Authorization: JWT,
+        },
+      })
+      .then((res) => res.data);
+  });
+  
+          
+
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
@@ -93,7 +115,7 @@ const ImageUpload = () => {
   //     .then((result) => console.log(result));
   // };
   return (
-    <Stack spacing={2} alignItems="center" sx={{ marginTop: "1rem" }}>
+    <Stack spacing={2} alignItems="center" sx={{ margin: "1rem 0rem" }}>
       <Stack
         sx={{
           width: "30vw",
@@ -184,6 +206,7 @@ const ImageUpload = () => {
           </Button>
         </Stack>
       )}
+      <ImageMeta/>
     </Stack>
   );
 };
