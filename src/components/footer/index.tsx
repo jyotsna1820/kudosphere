@@ -1,12 +1,12 @@
 import { Box, Typography } from "@mui/material"
-import { BLACK, PINK, WHITE } from "../../constants/colors"
+import { BLACK, BLUE, PINK, WHITE } from "../../constants/colors"
 
 // footer component
 const Footer = () => {
   return (
     <Box
       sx={{
-        backgroundColor: PINK,
+        backgroundColor: BLUE,
         color: WHITE,
         padding: "2rem 0rem",
         textAlign: "center",
@@ -29,7 +29,7 @@ const Footer = () => {
             fontWeight: 600,
             color: WHITE,
           }}>
-          © 2021
+          © 2023
         </Typography>
         <Typography>
 

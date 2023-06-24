@@ -1,6 +1,6 @@
-export const BLACK = "#1B1313";
-export const PINK= "#E385AC";
-export const GREEN= "#86C3A1";
-export const BLUE= "#6DA2B8";
-export const WHITE= "#EBE6DF";
-export const ORANGE = "#E79A43";
+export const BLACK = "#0F0101";
+export const PINK= "#F038FF";
+export const NEON= "#E2EF70";
+export const BLUE= "#3772FF";
+export const WHITE= "#FFFFFF";
+export const LIGHTBLUE = "#70E4EF";

@@ -2,7 +2,7 @@
 
 import { Stack, TextField } from "@mui/material";
 import { useState } from "react";
-import { GREEN } from "../../constants/colors";
+
 
 const ImageMeta = () => {
   const [name, setName] = useState("");

@@ -1,44 +1,55 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Stack } from "@mui/system";
-import { Button, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { MdUpload } from "react-icons/md";
-import { BLACK, GREEN } from "../../constants/colors";
-import {useQuery} from "react-query";
-import ImageMeta from "./imageMeta";
+import { BLACK, NEON } from "../../constants/colors";
+import { useMutation, useQuery } from "react-query";
 
-//function component to return the image upload component
+//upload Image props
+interface UploadImageProps {
+  image: File;
+  name: string;
+  description: string;
+}
+
 const JWT = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJlYmRiZjk1Yy0xODU4LTQ2NmEtOTZlNi1lZGZlM2UzYzM4MWEiLCJlbWFpbCI6Imp5b3RzbmExODIwQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJhZjFiMjc0N2NhMzc3M2MxODg3YyIsInNjb3BlZEtleVNlY3JldCI6ImY5ZmQ1N2M3ZjdjZDdiODA2NDFkMmRmNGNlM2VhMGIxZmU3MjE4Mjg1NmZmZWI4YTkwYTU4ODRlNzhjMjFmMGQiLCJpYXQiOjE2ODAyOTc4ODN9.59FKZD7xnbT7nNamhiHIfRmBuR7u6BfAnaWaQfymrc4`;
+
+const uploadImg = async ({ image, name, description }: UploadImageProps) => {
+  if (!image) return;
+  const formData = new FormData();
+  formData.append("file", image);
+  const metadata = JSON.stringify({
+    name: name,
+    keyvalues: {
+      description: description,
+    },
+  });
+  formData.append("pinataMetadata", metadata);
+  return axios
+    .post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
+      headers: {
+        "Content-Type": `multipart/form-data`,
+        Authorization: JWT,
+      },
+    })
+    .then((res) => res.data);
+};
 
 const ImageUpload = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [preview, setPreview] = useState<string | undefined>();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
   // use react query to upload image to pinata
 
-  const {isLoading, error, data} = useQuery("imageUpload", () => {
-    if (!selectedFile) return;
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    const metadata = JSON.stringify({
-      name: "File",
-      keyvalues: {
-        customKey: "customValue",
-        customKey2: "customValue2",
-      },
-    });
-    formData.append("pinataMetadata", metadata);
-    return axios
-      .post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
-        headers: {
-          "Content-Type": `multipart/form-data`,
-          Authorization: JWT,
-        },
-      })
-      .then((res) => res.data);
-  });
-  
-          
+  const uploadImgMutation = useMutation(uploadImg, {
+    onSuccess: () => {
+      setSelectedFile(undefined);
+      setName("");
+      setDescription("");
+  }});
 
   useEffect(() => {
     if (!selectedFile) {
@@ -65,55 +76,15 @@ const ImageUpload = () => {
 
   const onCancel = () => {
     setSelectedFile(undefined);
+    setName("");
+    setDescription("");
   };
 
-  const onSubmit = async () => {
-    if (!selectedFile) return;
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    const metadata = JSON.stringify({
-      name: "File",
-    });
-    formData.append("pinataMetadata", metadata);
-
-    const options = JSON.stringify({
-      cidVersion: 0,
-    });
-    formData.append("pinataOptions", options);
-
-    try {
-      const res = await axios.post(
-        "https://api.pinata.cloud/pinning/pinFileToIPFS",
-        formData,
-        {
-          maxBodyLength: Infinity,
-          headers: {
-            "Content-Type": `multipart/form-data`,
-            Authorization: JWT,
-          },
-        }
-      );
-      console.log(res.data);
-      console.log(formData, "form data");
-      const ImgHash = `ipfs://${res.data.IpfsHash}`;
-      console.log(ImgHash);
-    } catch (error) {
-      console.log(error);
-    }
+  const onUpload = () => {
+    if(!selectedFile) return;
+    uploadImgMutation.mutate({ image: selectedFile, name, description });
   };
-  //   // @ts-ignore
-  //   fetch(
-  //     "https://freeimage.host/api/1/upload?key=6d207e02198a847aa98d0a2a901485a5",
-  //     {
-  //       method: "POST",
-  //       body: formData,
-  //       mode: "no-cors",
-  //     }
-  //   )
-  //     .then((response) => response.json())
-  //     .then((result) => console.log(result));
-  // };
+
   return (
     <Stack spacing={2} alignItems="center" sx={{ margin: "1rem 0rem" }}>
       <Stack
@@ -134,8 +105,8 @@ const ImageUpload = () => {
             sx={{
               marginRight: "1rem",
               color: BLACK,
-              bgcolor: GREEN,
-              borderColor: GREEN,
+              bgcolor: NEON,
+              borderColor: NEON,
               boxShadow: "none",
             }}>
             <Typography
@@ -176,8 +147,8 @@ const ImageUpload = () => {
         <Stack direction={"row"} spacing={2} justifyContent="center">
           <Button
             variant="contained"
-            onClick={onSubmit}
-            sx={{ color: BLACK, bgcolor: GREEN, boxShadow: "none" }}>
+            onClick={onUpload}
+            sx={{ color: BLACK, bgcolor: NEON, boxShadow: "none" }}>
             <Typography
               variant="body1"
               sx={{
@@ -186,13 +157,13 @@ const ImageUpload = () => {
                 fontWeight: 600,
                 textTransform: "none",
               }}>
-              Upload
+              {uploadImgMutation.isLoading ? "Uploading..." : "Upload"}
             </Typography>
           </Button>
           <Button
             variant="outlined"
             onClick={onCancel}
-            sx={{ color: GREEN, borderColor: GREEN }}>
+            sx={{ color: NEON, borderColor: NEON }}>
             <Typography
               variant="body1"
               sx={{
@@ -206,7 +177,27 @@ const ImageUpload = () => {
           </Button>
         </Stack>
       )}
-      <ImageMeta/>
+      <Stack spacing={2} sx={{ width: "30vw" }}>
+        <TextField
+          id="outlined-basic"
+          label="Name your image"
+          variant="outlined"
+          fullWidth
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <TextField
+          id="outlined-basic"
+          label="Personalized message"
+          variant="outlined"
+          value={description}
+          multiline
+          rows={4}
+          fullWidth
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </Stack>
     </Stack>
   );
 };
