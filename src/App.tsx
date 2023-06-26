@@ -10,11 +10,7 @@ import { BLACK, BLUE, NEON, WHITE } from "./constants/colors";
 import { Web3Modal } from "@web3modal/react";
 import { EthereumClient } from "@web3modal/ethereum";
 import { Web3Button } from "@web3modal/react";
-import kudosphereLogoSQ from "./assets/kudosphere_sq.svg";
-import teamSolid from "./assets/teamSolid.svg";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import gift12 from "./assets/gift12.svg";
-import gift13 from "./assets/gift13.svg";
 import Footer from "./components/footer";
 import LandingPage from "./components/landingPage";
 
@@ -58,9 +54,9 @@ function App({
                 "--w3m-z-index": "1111",
                 "--w3m-accent-color": BLUE,
                 "--w3m-background-color": NEON,
-                "--w3m-accent-fill-color": BLACK,
-                "--w3m-font-family": "Mulish, sans-serif",
-              }}
+                "--w3m-accent-fill-color": WHITE,
+                "--w3m-font-family": "Roboto, sans-serif",
+                "--w3m-text-medium-regular-weight": "400",}}
             />
           </Grid>
         </Grid>

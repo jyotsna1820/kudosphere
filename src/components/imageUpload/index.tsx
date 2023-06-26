@@ -3,7 +3,7 @@ import axios from "axios";
 import { Stack } from "@mui/system";
 import { Button, TextField, Typography } from "@mui/material";
 import { MdUpload } from "react-icons/md";
-import { BLACK, NEON } from "../../constants/colors";
+import { BLACK, BLUE, LIGHTBLUE, NEON } from "../../constants/colors";
 import { useMutation, useQuery } from "react-query";
 
 //upload Image props
@@ -86,16 +86,18 @@ const ImageUpload = () => {
   };
 
   return (
-    <Stack spacing={2} alignItems="center" sx={{ margin: "1rem 0rem" }}>
+    <Stack spacing={2} sx={{ margin: "6rem", alignSelf: "center", justifyContent: "center", alignItems: "top" }} direction="row">
+      <Stack>
       <Stack
         sx={{
           width: "30vw",
           height: "40vh",
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: "6px",
+          borderRadius: "3px",
+          border: `3px dashed ${BLUE}`,
           padding: "1rem",
-          backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' rx='6' ry='6' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23B8B8B8' stroke-width='7' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
+          backgroundColor: "rgba(55,114,255,0.2)",
         }}>
         {!selectedFile && (
           <Button
@@ -104,21 +106,11 @@ const ImageUpload = () => {
             startIcon={<MdUpload />}
             sx={{
               marginRight: "1rem",
-              color: BLACK,
-              bgcolor: NEON,
-              borderColor: NEON,
+              bgcolor: BLUE,
               boxShadow: "none",
             }}>
-            <Typography
-              variant="body1"
-              sx={{
-                color: BLACK,
-                fontFamily: "Mulish, sans-serif",
-                fontWeight: 600,
-                textTransform: "none",
-              }}>
-              Upload Image
-            </Typography>
+
+              Choose Image from your device
             <input
               accept="image/*"
               multiple
@@ -143,40 +135,8 @@ const ImageUpload = () => {
         )}
       </Stack>
 
-      {selectedFile && (
-        <Stack direction={"row"} spacing={2} justifyContent="center">
-          <Button
-            variant="contained"
-            onClick={onUpload}
-            sx={{ color: BLACK, bgcolor: NEON, boxShadow: "none" }}>
-            <Typography
-              variant="body1"
-              sx={{
-                color: BLACK,
-                fontFamily: "Mulish, sans-serif",
-                fontWeight: 600,
-                textTransform: "none",
-              }}>
-              {uploadImgMutation.isLoading ? "Uploading..." : "Upload"}
-            </Typography>
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={onCancel}
-            sx={{ color: NEON, borderColor: NEON }}>
-            <Typography
-              variant="body1"
-              sx={{
-                color: BLACK,
-                fontFamily: "Mulish, sans-serif",
-                fontWeight: 600,
-                textTransform: "none",
-              }}>
-              Cancel
-            </Typography>
-          </Button>
-        </Stack>
-      )}
+      
+      </Stack>
       <Stack spacing={2} sx={{ width: "30vw" }}>
         <TextField
           id="outlined-basic"
@@ -193,10 +153,44 @@ const ImageUpload = () => {
           variant="outlined"
           value={description}
           multiline
-          rows={4}
+          rows={6}
           fullWidth
           onChange={(e) => setDescription(e.target.value)}
         />
+        <Stack direction={"row"} spacing={2} justifyContent="flex-start">
+          <Button
+            variant="contained"
+            disabled={uploadImgMutation.isLoading || !selectedFile}
+            onClick={onUpload}
+            sx={{ color: BLACK, bgcolor: NEON, boxShadow: "none" }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: BLACK,
+                fontFamily: "Mulish, sans-serif",
+                fontWeight: 600,
+                textTransform: "none",
+              }}>
+              {uploadImgMutation.isLoading ? "Uploading..." : "Upload"}
+            </Typography>
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={onCancel}
+            disabled={!selectedFile}
+            sx={{ color: NEON, borderColor: NEON }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: BLACK,
+                fontFamily: "Mulish, sans-serif",
+                fontWeight: 600,
+                textTransform: "none",
+              }}>
+              Cancel
+            </Typography>
+          </Button>
+        </Stack>
       </Stack>
     </Stack>
   );

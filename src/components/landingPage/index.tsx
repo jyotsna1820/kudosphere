@@ -40,7 +40,8 @@ const LandingPage = () => {
         Get Started
       </Button>
       <img src={teamSolid} alt="gift" width={"80%"} />
-      <h2>3 simple steps to get started</h2>
+      <Stack sx={{marginTop: "7rem"}}>
+      <Typography variant={"h4"}>Send your Kudos in 3 simple steps</Typography>
       <Grid container md={12}>
         <Grid
           item
@@ -54,7 +55,7 @@ const LandingPage = () => {
           }}
         >
           <img src={step1} alt="gift" className="steps" />
-          <h4>Upload your image</h4>
+          <Typography variant={"body2"}>Upload your image</Typography>
         </Grid>
         <Grid
           item
@@ -68,7 +69,7 @@ const LandingPage = () => {
           }}
         >
           <img src={step2} alt="gift" className="steps" />
-          <h4>Write a message</h4>
+          <Typography variant={"body2"}>Write a message</Typography>
         </Grid>
         <Grid
           item
@@ -82,9 +83,10 @@ const LandingPage = () => {
           }}
         >
           <img src={step3} alt="gift" className="steps" />
-          <h4>Send to a friend</h4>
+          <Typography variant={"body2"}>Send to a friend</Typography>
         </Grid>
       </Grid>
+      </Stack>
     </Stack>
   );
 };
